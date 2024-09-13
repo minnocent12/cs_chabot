@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Management</title>
+    <link rel="stylesheet" href="/database.css">
+</head>
+<body>
+    <header>
+        <div class="trainning">
+            <span>CHATBOT TRAINNING SECTION</span>
+        </div>
+        <!-- Include your header here -->
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Intents Section -->
+            <section class="section" id="intentsSection">
+                <h1>Intents Management</h1>
+                
+                <div class="scrollable">
+                    <div>
+                        <h2>View Intents</h2>
+                        <button onclick="fetchIntents()">Load</button>
+                        <button class="unloadbutton" onclick="unloadIntents()">Unload</button>
+                        <table id="intentsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Intent Name</th>
+                                    <th>Has Submenu</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h2>Add New Intent</h2>
+                        <form id="addIntentForm">
+                            <label for="intentName">Intent Name:</label>
+                            <input type="text" id="intentName" name="intentName" required>
+                            <label for="hasSubmenu">Has Submenu:</label>
+                            <select id="hasSubmenu" name="hasSubmenu" required>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <button type="button" onclick="addIntent()">Add Intent</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Update Intent</h2>
+                        <form id="updateIntentForm">
+                            <label for="updateId">Intent ID:</label>
+                            <input type="number" id="updateId" name="updateId" required>
+                            <label for="updateIntentName">New Intent Name:</label>
+                            <input type="text" id="updateIntentName" name="updateIntentName" required>
+                            <label for="updateHasSubmenu">Has Submenu:</label>
+                            <select id="updateHasSubmenu" name="updateHasSubmenu" required>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <button type="button" onclick="updateIntent()">Update Intent</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Delete Intent</h2>
+                        <form id="deleteIntentForm">
+                            <label for="deleteId">Intent ID:</label>
+                            <input type="number" id="deleteId" name="deleteId" required>
+                            <button type="button" onclick="deleteIntent()">Delete Intent</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Responses Section -->
+            <section class="section" id="responsesSection">
+                <h1>Responses Management</h1>
+                
+                <div class="scrollable">
+                    <div>
+                        <h2>View Responses</h2>
+                        <button onclick="fetchResponses()">Load</button>
+                        <button class="unloadbutton" onclick="unloadResponses()">Unload </button>
+                        <table id="responsesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Intent ID</th>
+                                    <th>Response</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h2>Add New Response</h2>
+                        <form id="addResponseForm">
+                            <label for="responseIntentId">Intent ID:</label>
+                            <input type="number" id="responseIntentId" name="responseIntentId" required>
+                            <label for="responseText">Response Text:</label>
+                            <textarea id="responseText" name="responseText" required></textarea>
+                            <button type="button" onclick="addResponse()">Add Response</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Update Response</h2>
+                        <form id="updateResponseForm">
+                            <label for="updateResponseId">Response ID:</label>
+                            <input type="number" id="updateResponseId" name="updateResponseId" required>
+                            <label for="updateResponseText">New Response Text:</label>
+                            <textarea id="updateResponseText" name="updateResponseText" required></textarea>
+                            <button type="button" onclick="updateResponse()">Update Response</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Delete Response</h2>
+                        <form id="deleteResponseForm">
+                            <label for="deleteResponseId">Response ID:</label>
+                            <input type="number" id="deleteResponseId" name="deleteResponseId" required>
+                            <button type="button" onclick="deleteResponse()">Delete Response</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Keywords Section -->
+            <section class="section" id="keywordsSection">
+                <h1>Keywords Management</h1>
+                
+                <div class="scrollable">
+                    <div>
+                        <h2>View Keywords</h2>
+                        <button onclick="fetchKeywords()">Load</button>
+                        <button class="unloadbutton" onclick="unloadKeywords()">Unload</button>
+                        <table id="keywordsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Intent ID</th>
+                                    <th>Keyword</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h2>Add New Keyword</h2>
+                        <form id="addKeywordForm">
+                            <label for="keywordIntentId">Intent ID:</label>
+                            <input type="number" id="keywordIntentId" name="keywordIntentId" required>
+                            <label for="keywordText">Keyword:</label>
+                            <input type="text" id="keywordText" name="keywordText" required>
+                            <button type="button" onclick="addKeyword()">Add Keyword</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Update Keyword</h2>
+                        <form id="updateKeywordForm">
+                            <label for="updateKeywordId">Keyword ID:</label>
+                            <input type="number" id="updateKeywordId" name="updateKeywordId" required>
+                            <label for="updateKeywordText">New Keyword:</label>
+                            <input type="text" id="updateKeywordText" name="updateKeywordText" required>
+                            <button type="button" onclick="updateKeyword()">Update Keyword</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Delete Keyword</h2>
+                        <form id="deleteKeywordForm">
+                            <label for="deleteKeywordId">Keyword ID:</label>
+                            <input type="number" id="deleteKeywordId" name="deleteKeywordId" required>
+                            <button type="button" onclick="deleteKeyword()">Delete Keyword</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submenu Responses Section -->
+            <section class="section" id="submenuResponsesSection">
+                <h1>Submenu Responses Management</h1>
+               
+                <div class="scrollable">
+                    <div>
+                        <h2>View Submenu Responses</h2>
+                        <button onclick="fetchSubmenuResponses()">Load Submenu</button>
+                        <button class="unloadbuttone" onclick="unloadSubmenuResponses()">Unload</button>
+                        <table id="submenuResponsesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Intent ID</th>
+                                    <th>Submenu Option</th>
+                                    <th>Submenu Response</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h2>Add New Submenu Response</h2>
+                        <form id="addSubmenuResponseForm">
+                            <label for="submenuIntentId">Intent ID:</label>
+                            <input type="number" id="submenuIntentId" name="submenuIntentId" required>
+                            <label for="submenuOption">Submenu Option:</label>
+                            <input type="text" id="submenuOption" name="submenuOption" required>
+                            <label for="submenuResponse">Submenu Response:</label>
+                            <textarea id="submenuResponse" name="submenuResponse" required></textarea>
+                            <button type="button" onclick="addSubmenuResponse()">Add Submenu Response</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2>Update Submenu Response</h2>
+                        <form id="updateSubmenuResponseForm">
+                            <label for="updateSubmenuResponseId">Submenu Response ID:</label>
+                            <input type="number" id="updateSubmenuResponseId" name="updateSubmenuResponseId" required>
+                            <label for="updateSubmenuOption">New Submenu Option:</label>
+                            <input type="text" id="updateSubmenuOption" name="updateSubmenuOption" required>
+                            <label for="updateSubmenuResponseText">New Submenu Response:</label>
+                            <textarea id="updateSubmenuResponseText" name="updateSubmenuResponseText" required></textarea>
+                            <button type="button" onclick="updateSubmenuResponse()">Update Submenu Response</button> 
+                        </form> 
+                    </div>
+
+                    <div>
+                        <h2>Delete Submenu Response</h2>
+                        <form id="deleteSubmenuResponseForm">
+                            <label for="deleteSubmenuResponseId">Submenu Response ID:</label>
+                            <input type="number" id="deleteSubmenuResponseId" name="deleteSubmenuResponseId" required>
+                            <button type="button" onclick="deleteSubmenuResponse()">Delete Submenu Response</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <!-- Include your footer here -->
+    </footer>
+    
+    <script src="/database.js"></script>
+</body> 
+</html>

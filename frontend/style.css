@@ -1,0 +1,390 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures body takes at least the full viewport height */
+}
+
+.main-content {
+    background-color: white;
+    border-bottom: 0px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    flex: 1; /* Allows the main content to take up the remaining space */
+    
+}
+
+/* Header Styles */
+header {
+    background-color: #fff;
+    border-bottom: 0px solid #ddd;
+}
+
+.header-part1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.header-left img {
+    width: 150px; /* Adjust based on your logo size */
+    height: auto;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right a {
+    text-decoration: none;
+    color: #333;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.header-right .separator {
+    border-left: 1px solid #007bff;
+    height: 20px;
+    margin: 0 10px;
+}
+
+.header-right img {
+    width: 20px; /* Adjust based on your icon sizes */
+    height: 20px;
+}
+
+.header-part2 {
+    text-align: center;
+    padding: 10px 20px;
+}
+
+.university-link {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+.university-link:hover {
+    color: #007bff;
+}
+
+/* Header Links Section */
+.header-links {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: blue;
+}
+
+.header-links a {
+    text-decoration: none;
+    color: white;
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.header-links a:hover {
+    text-decoration: underline;
+}
+
+/* Chat Icon and Window Styles */
+#chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px; /* Slightly larger chat icon */
+    height: 70px;
+    cursor: pointer;
+}
+
+#chat-icon img {
+    width: 100%;
+    height: auto;
+}
+
+#chat-window {
+    position: fixed;
+    bottom: 90px; /* Adjusted to fit the larger window */
+    right: 20px;
+    width: 350px; /* Increased width */
+    height: 700px; /* Increased height */
+    background-color: white;
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    flex-direction: column;
+    overflow: hidden; /* Hide overflow to maintain design */
+}
+
+.hidden {
+    display: none;
+}
+
+.chat-header {
+    background-color: #333; /* Darker background */
+    color: white;
+    padding: 15px; /* Increased padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom: 1px solid #ddd; /* Light border for separation */
+}
+
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f9f9f9; /* Slightly lighter background */
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.user-message, .bot-message {
+    padding: 5px 10px;
+    border-radius: 20px; /* More rounded message bubbles */
+    margin-bottom: 5px;
+    max-width: 89%; /* Ensure messages fit well */
+}
+
+.user-message {
+    background-color: #d1e7dd; /* Light green for user messages */
+    align-self: flex-end; /* Align user messages to the right */
+}
+
+.bot-message {
+    background-color: #e2e3e5; /* Light grey for bot messages */
+    align-self: flex-start; /* Align bot messages to the left */
+}
+
+.chat-footer {
+    padding: 10px;
+    display: flex;
+    border-top: 1px solid #ddd;
+    background-color: #fff; /* White background */
+    align-items: center;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 20px; /* More rounded corners */
+    border: 1px solid #ccc;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px; /* Larger buttons */
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+
+.predefined-questions {
+    padding: 15px; /* Increased padding */
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd; /* Add a border for separation */
+}
+
+.predefined-questions button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.predefined-questions button:hover {
+    background-color: #0056b3;
+}
+
+.bot-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.bot-message img {
+    width: 35px; /* Slightly larger bot icon */
+    height: 35px;
+    margin-right: 12px; /* Adjusted margin */
+}
+
+.bot-message-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    background-color: #e2e3e5; /* Light grey for bot messages */
+    align-self: flex-start; /* Align bot messages to the left */
+    padding: 5px 30px;
+    border-radius: 20px; /* More rounded message bubbles */
+    max-width: 89%; /* Ensure messages fit well */
+}
+
+.bot-message-top img {
+    width: 35px; /* Slightly larger bot icon */
+    height: 35px;
+    margin-right: 12px; /* Adjusted margin */
+}
+
+/* Predefined Questions Dialog */
+#predefined-dialog {
+    position: fixed;
+    bottom: 100px; /* Adjust according to chat window height */
+    right: 20px;
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dialog-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.dialog-body {
+    padding: 10px;
+}
+
+.dialog-body button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.dialog-body button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Footer Styles */
+footer {
+    background-color: #fff;
+    
+    border-top: 0px solid #ddd;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    border-bottom: 0px solid #ddd;
+
+}
+
+.footer-links {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.footer-left, .footer-right {
+    display: flex;
+    align-items: center;
+}
+
+.footer-left a, .footer-right a {
+    text-decoration: none;
+    color: #007bff;
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.footer-left a:hover, .footer-right a:hover {
+    text-decoration: underline;
+}
+
+.footer-logo {
+    margin-bottom: 20px;
+}
+
+.footer-logo img {
+    width: 150px; /* Adjust based on your logo size */
+}
+
+.social-media-links {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.social-media-links a {
+    text-decoration: none;
+    color: #333;
+    margin: 0 10px;
+}
+
+.social-media-links img {
+    width: 25px; /* Adjust based on your icon sizes */
+    height: 25px;
+}
+
+.footer-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.footer-info span {
+    display: inline-block;
+    margin: 0 10px;
+    color: #333;
+}
+
+
+
+
+/* Slideshow Styles */
+.slideshow {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Adjust height as needed */
+    overflow: hidden;
+}
+
+.slideshow img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slideshow img.active {
+    opacity: 1;
+}
