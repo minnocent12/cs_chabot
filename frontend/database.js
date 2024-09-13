@@ -194,11 +194,12 @@ function addResponse() {
 function updateResponse() {
     const form = document.getElementById('updateResponseForm');
     const formData = new FormData(form);
+    
     fetch('/responses/update', {
         method: 'POST',
         body: JSON.stringify({
             id: formData.get('updateResponseId'),
-            response: formData.get('updateResponseText')
+            response: formData.get('updateResponseText') // Only send response text
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -206,13 +207,18 @@ function updateResponse() {
     }).then(response => response.json())
       .then(data => {
           if (data.success) {
-              showDialog('Response updated successfully!', true);
-              fetchResponses();
+              showDialog('Response updated successfully!', true);  // Use a dialog box instead of alert
+              fetchResponses();  // Reload the responses to reflect the changes
           } else {
               showDialog('Error updating response.', false);
           }
+      })
+      .catch(error => {
+          showDialog('An unexpected error occurred.', false);
+          console.error('Error during response update:', error);
       });
 }
+
 
 function deleteResponse() {
     const form = document.getElementById('deleteResponseForm');

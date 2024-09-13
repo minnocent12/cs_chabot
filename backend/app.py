@@ -86,10 +86,13 @@ def add_response():
 def update_response():
     data = request.json
     response_id = data.get('id')
-    intent_id = data.get('intent_id')
     response = data.get('response')
-    success = update_response_in_db(response_id, intent_id, response)
+    
+    # Call the updated function that only updates the response text
+    success = update_response_in_db(response_id, response)
+    
     return jsonify({'success': success})
+
 
 @app.route('/responses/delete', methods=['POST'])
 def delete_response():
@@ -116,9 +119,9 @@ def add_keyword():
 def update_keyword():
     data = request.json
     keyword_id = data.get('id')
-    intent_id = data.get('intent_id')
+    
     keyword = data.get('keyword')
-    success = update_keyword_in_db(keyword_id, intent_id, keyword)
+    success = update_keyword_in_db(keyword_id, keyword)
     return jsonify({'success': success})
 
 @app.route('/keywords/delete', methods=['POST'])
@@ -147,10 +150,10 @@ def add_submenu_response():
 def update_submenu_response():
     data = request.json
     submenu_response_id = data.get('id')
-    intent_id = data.get('intent_id')
+    
     submenu_option = data.get('submenu_option')
     submenu_response = data.get('submenu_response')
-    success = update_submenu_response_in_db(submenu_response_id, intent_id, submenu_option, submenu_response)
+    success = update_submenu_response_in_db(submenu_response_id, submenu_option, submenu_response)
     return jsonify({'success': success})
 
 @app.route('/submenu_responses/delete', methods=['POST'])

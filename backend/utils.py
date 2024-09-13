@@ -134,16 +134,18 @@ def add_response_to_db(intent_id, response):
     finally:
         close_db(conn)
 
-def update_response_in_db(response_id, intent_id, response):
-    """Update an existing response in the database."""
+def update_response_in_db(response_id, response):
+    """Update an existing response in the database without updating intent_id."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('UPDATE responses SET intent_id = ?, response = ? WHERE id = ?', (intent_id, response, response_id))
+        # Update only the response text
+        cursor.execute('UPDATE responses SET response = ? WHERE id = ?', (response, response_id))
         conn.commit()
         return cursor.rowcount > 0
     finally:
         close_db(conn)
+
 
 def delete_response_from_db(response_id):
     """Delete a response from the database."""
@@ -179,12 +181,12 @@ def add_keyword_to_db(intent_id, keyword):
     finally:
         close_db(conn)
 
-def update_keyword_in_db(keyword_id, intent_id, keyword):
+def update_keyword_in_db(keyword_id, keyword):
     """Update an existing keyword in the database."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('UPDATE keywords SET intent_id = ?, keyword = ? WHERE id = ?', (intent_id, keyword, keyword_id))
+        cursor.execute('UPDATE keywords SET keyword = ? WHERE id = ?', (keyword, keyword_id))
         conn.commit()
         return cursor.rowcount > 0
     finally:
@@ -224,12 +226,12 @@ def add_submenu_response_to_db(intent_id, submenu_option, submenu_response):
     finally:
         close_db(conn)
 
-def update_submenu_response_in_db(submenu_response_id, intent_id, submenu_option, submenu_response):
+def update_submenu_response_in_db(submenu_response_id, submenu_option, submenu_response):
     """Update an existing submenu response in the database."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('UPDATE submenu_responses SET intent_id = ?, submenu_option = ?, submenu_response = ? WHERE id = ?', (intent_id, submenu_option, submenu_response, submenu_response_id))
+        cursor.execute('UPDATE submenu_responses SET submenu_option = ? , submenu_response = ? WHERE id = ?', (submenu_option, submenu_response, submenu_response_id))
         conn.commit()
         return cursor.rowcount > 0
     finally:

@@ -23,6 +23,7 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .container {
@@ -40,6 +41,8 @@ main {
 
     padding: 1em;
     border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
 }
 
 table {
