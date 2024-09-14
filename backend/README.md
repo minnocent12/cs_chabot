@@ -76,3 +76,5 @@ This project is licensed under the INNOSTAR License.
 
 source path/to/venv/bin/activate
 python3 backend/app.py
+
+git push -u origin main  

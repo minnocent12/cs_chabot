@@ -55,6 +55,9 @@ function sendMessage() {
     addMessage(userInput, 'user');
     document.getElementById('user-input').value = ''; // Clear the input field
 
+    // Simulate chatbot "typing" effect by showing a typing indicator
+    addMessage('...', 'bot-typing'); // Show typing dots
+
     fetch('/chat', {
         method: 'POST',
         headers: {
@@ -64,7 +67,11 @@ function sendMessage() {
     })
     .then(response => response.json())
     .then(data => {
-        addMessage(data.response, 'bot'); // Add bot's response
+        // Remove the typing indicator after a 2-3 second delay
+        setTimeout(() => {
+            removeTypingIndicator();
+            addMessage(data.response, 'bot'); // Add bot's response
+        }, 2000); // Delay of 2 seconds
     });
 }
 
@@ -83,6 +90,14 @@ function addMessage(message, sender) {
                 <span class="timestamp">${currentTime}</span>
             </div>
         `;
+    } else if (sender === 'bot-typing') {
+        messageElement.innerHTML = `
+            
+            <div class="message-content">
+                <p class="typing-indicator">${message}</p>
+            </div>
+        `;
+        messageElement.id = 'typing-indicator'; // Set an ID for later removal
     } else {
         messageElement.innerHTML = `
             <div class="message-content">
@@ -95,6 +110,14 @@ function addMessage(message, sender) {
     chatBody.appendChild(messageElement); // Append new messages at the bottom
     chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the latest message
 }
+
+function removeTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove(); // Remove the typing indicator once the bot responds
+    }
+}
+
 
 function askPredefinedQuestion(question) {
     addMessage(question, 'user'); // Display user's predefined question
