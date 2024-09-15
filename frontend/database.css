@@ -74,12 +74,10 @@ button:hover {
     background-color: #45a049; /* Darker green on hover */
 }
 
-.unloadbutton{
-    margin-left:50%
+.unloadbutton {
+    float: right;
 }
-.unloadbuttone{
-    margin-left:33.2%
-}
+
 
 
 form {
