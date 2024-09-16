@@ -101,15 +101,26 @@ def update_intent_in_db(intent_id, intent_name, has_submenu):
         close_db(conn)
 
 def delete_intent_from_db(intent_id):
-    """Delete an intent from the database."""
+    """Delete an intent and its related data from the database."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
+        
+        # Delete related records from other tables
+        cursor.execute('DELETE FROM submenu_responses WHERE intent_id = ?', (intent_id,))
+        cursor.execute('DELETE FROM responses WHERE intent_id = ?', (intent_id,))
+        cursor.execute('DELETE FROM keywords WHERE intent_id = ?', (intent_id,))
+        
+        # Delete the intent
         cursor.execute('DELETE FROM intents WHERE id = ?', (intent_id,))
+        
         conn.commit()
+        
+        # Check if the intent was deleted
         return cursor.rowcount > 0
     finally:
         close_db(conn)
+
 
 # CRUD operations for responses
 def get_responses_from_db():
