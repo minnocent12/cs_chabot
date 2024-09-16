@@ -77,4 +77,9 @@ This project is licensed under the INNOSTAR License.
 source path/to/venv/bin/activate
 python3 backend/app.py
 
+
+git hub codes to do once you made changes
+
+git add .
+git commit -m "new changes"
 git push -u origin main  

@@ -58,7 +58,18 @@ function unloadIntents() {
 
 function addIntent() {
     const form = document.getElementById('addIntentForm');
+    const intentName = form.intentName.value.trim();
+    const hasSubmenu = form.hasSubmenu.value;
+
+    // Check if all required fields are filled
+    if (!intentName || !hasSubmenu) {
+        // Show a dialog box if any required fields are empty
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission
+    }
+
     const formData = new FormData(form);
+
     fetch('/intents/add', {
         method: 'POST',
         body: JSON.stringify({
@@ -68,42 +79,56 @@ function addIntent() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Intent added successfully!', true);
-              fetchIntents();
-          } else {
-              showDialog('Error adding intent.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Intent added successfully!', true);
+            fetchIntents();
+        } else {
+            showDialog('Error adding intent.', false);
+        }
+    });
 }
+
 
 
 
 function updateIntent() {
     const form = document.getElementById('updateIntentForm');
-    const formData = new FormData(form);
+    const updateId = form.updateId.value.trim();
+    const updateIntentName = form.updateIntentName.value.trim();
+    const updateHasSubmenu = form.updateHasSubmenu.value.trim();
+
+    // Check if all required fields are filled
+    if (!updateId || !updateIntentName || !updateHasSubmenu) {
+        // Show a dialog box if any required fields are empty
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission
+    }
+
     fetch('/intents/update', {
         method: 'POST',
         body: JSON.stringify({
-            id: formData.get('updateId'),
-            intent_name: formData.get('updateIntentName'),
-            has_submenu: formData.get('updateHasSubmenu') === 'true'
+            id: updateId,
+            intent_name: updateIntentName,
+            has_submenu: updateHasSubmenu === 'true'
         }),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Intent updated successfully!', true);
-              fetchIntents();
-          } else {
-              showDialog('Error updating intent.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Intent updated successfully!', true);
+            fetchIntents(); // Refresh the intents
+        } else {
+            showDialog('Error updating intent.', false);
+        }
+    });
 }
+
 
 
 function deleteIntent() {
@@ -170,7 +195,18 @@ function unloadResponses() {
 
 function addResponse() {
     const form = document.getElementById('addResponseForm');
+    const responseIntentId = form.responseIntentId.value.trim();
+    const responseText = form.responseText.value.trim();
+
+    // Check if all required fields are filled
+    if (!responseIntentId || !responseText) {
+        // Show a dialog box if any required fields are empty
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission
+    }
+
     const formData = new FormData(form);
+
     fetch('/responses/add', {
         method: 'POST',
         body: JSON.stringify({
@@ -180,44 +216,55 @@ function addResponse() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Response added successfully!', true);
-              fetchResponses();
-          } else {
-              showDialog('Error adding response.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Response added successfully!', true);
+            fetchResponses(); // Refresh the list of responses
+        } else {
+            showDialog('Error adding response.', false);
+        }
+    });
 }
+
 
 function updateResponse() {
     const form = document.getElementById('updateResponseForm');
-    const formData = new FormData(form);
-    
+    const updateResponseId = form.updateResponseId.value.trim();
+    const updateResponseText = form.updateResponseText.value.trim();
+
+    // Validate form inputs
+    if (!updateResponseId || !updateResponseText) {
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission if validation fails
+    }
+
     fetch('/responses/update', {
         method: 'POST',
         body: JSON.stringify({
-            id: formData.get('updateResponseId'),
-            response: formData.get('updateResponseText') // Only send response text
+            id: updateResponseId,
+            response: updateResponseText // Only send response text
         }),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Response updated successfully!', true);  // Use a dialog box instead of alert
-              fetchResponses();  // Reload the responses to reflect the changes
-          } else {
-              showDialog('Error updating response.', false);
-          }
-      })
-      .catch(error => {
-          showDialog('An unexpected error occurred.', false);
-          console.error('Error during response update:', error);
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Response updated successfully!', true);  // Use a dialog box instead of alert
+            fetchResponses();  // Reload the responses to reflect the changes
+        } else {
+            showDialog('Error updating response.', false);
+        }
+    })
+    .catch(error => {
+        showDialog('An unexpected error occurred.', false);
+        console.error('Error during response update:', error);
+    });
 }
+
 
 
 function deleteResponse() {
@@ -280,7 +327,18 @@ function unloadKeywords() {
 
 function addKeyword() {
     const form = document.getElementById('addKeywordForm');
+    const keywordIntentId = form.keywordIntentId.value.trim();
+    const keywordText = form.keywordText.value.trim();
+
+    // Check if all required fields are filled
+    if (!keywordIntentId || !keywordText) {
+        // Show a dialog box if any required fields are empty
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission
+    }
+
     const formData = new FormData(form);
+
     fetch('/keywords/add', {
         method: 'POST',
         body: JSON.stringify({
@@ -290,39 +348,55 @@ function addKeyword() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Keyword added successfully!', true);
-              fetchKeywords();
-          } else {
-              showDialog('Error adding keyword.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Keyword added successfully!', true);
+            fetchKeywords(); // Refresh the list of keywords
+        } else {
+            showDialog('Error adding keyword.', false);
+        }
+    });
 }
+
 
 function updateKeyword() {
     const form = document.getElementById('updateKeywordForm');
-    const formData = new FormData(form);
+    const updateKeywordId = form.updateKeywordId.value.trim();
+    const updateKeywordText = form.updateKeywordText.value.trim();
+
+    // Validate form inputs
+    if (!updateKeywordId || !updateKeywordText) {
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission if validation fails
+    }
+
     fetch('/keywords/update', {
         method: 'POST',
         body: JSON.stringify({
-            id: formData.get('updateKeywordId'),
-            keyword: formData.get('updateKeywordText')
+            id: updateKeywordId,
+            keyword: updateKeywordText
         }),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Keyword updated successfully!', true);
-              fetchKeywords();
-          } else {
-              showDialog('Error updating keyword.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Keyword updated successfully!', true); // Use a dialog box instead of alert
+            fetchKeywords(); // Reload the keywords to reflect the changes
+        } else {
+            showDialog('Error updating keyword.', false);
+        }
+    })
+    .catch(error => {
+        showDialog('An unexpected error occurred.', false);
+        console.error('Error during keyword update:', error);
+    });
 }
+
 
 function deleteKeyword() {
     const form = document.getElementById('deleteKeywordForm');
@@ -384,7 +458,19 @@ function unloadSubmenuResponses() {
 
 function addSubmenuResponse() {
     const form = document.getElementById('addSubmenuResponseForm');
+    const submenuIntentId = form.submenuIntentId.value.trim();
+    const submenuOption = form.submenuOption.value.trim();
+    const submenuResponse = form.submenuResponse.value.trim();
+
+    // Check if all required fields are filled
+    if (!submenuIntentId || !submenuOption || !submenuResponse) {
+        // Show a dialog box if any required fields are empty
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission
+    }
+
     const formData = new FormData(form);
+
     fetch('/submenu_responses/add', {
         method: 'POST',
         body: JSON.stringify({
@@ -395,20 +481,34 @@ function addSubmenuResponse() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Submenu response added successfully!', true);
-              fetchSubmenuResponses();
-          } else {
-              showDialog('Error adding submenu response.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Submenu response added successfully!', true);
+            fetchSubmenuResponses(); // Refresh the submenu responses
+        } else {
+            showDialog('Error adding submenu response.', false);
+        }
+    });
 }
+
 
 function updateSubmenuResponse() {
     const form = document.getElementById('updateSubmenuResponseForm');
+    const submenuResponseId = form.updateSubmenuResponseId.value.trim();
+    const submenuOption = form.updateSubmenuOption.value.trim();
+    const submenuResponseText = form.updateSubmenuResponseText.value.trim();
+
+    // Check if all required fields are filled
+    if (!submenuResponseId || !submenuOption || !submenuResponseText) {
+        // Show a dialog box if any required fields are empty
+        showDialog('Please fill in all required fields', false);
+        return; // Prevent form submission
+    }
+
     const formData = new FormData(form);
+
     fetch('/submenu_responses/update', {
         method: 'POST',
         body: JSON.stringify({
@@ -419,16 +519,18 @@ function updateSubmenuResponse() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              showDialog('Submenu response updated successfully!', true);
-              fetchSubmenuResponses();
-          } else {
-              showDialog('Error updating submenu response.', false);
-          }
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showDialog('Submenu response updated successfully!', true);
+            fetchSubmenuResponses(); // Refresh the submenu responses
+        } else {
+            showDialog('Error updating submenu response.', false);
+        }
+    });
 }
+
 
 function deleteSubmenuResponse() {
     const form = document.getElementById('deleteSubmenuResponseForm');
