@@ -17,17 +17,15 @@ def close_db(conn):
         conn.close()
 
 def handle_input(user_input):
-    # First, check if user input matches any submenu option
-    submenu_option = classify_submenu_option(user_input, get_all_submenu_options())  # Get all submenu options from the database
+    # Check if user input matches any submenu option
+    submenu_option = classify_submenu_option(user_input, get_all_submenu_options())
     if submenu_option:
-        # Get the intent ID associated with the submenu option
-        intent_id = get_intent_by_submenu_option(submenu_option)  # New function to fetch intent ID by submenu option
-        if intent_id:
-            # Fetch the submenu response for the selected option
-            submenu_response = get_submenu_response(intent_id, submenu_option)
-            return {'submenu_response': submenu_response} if submenu_response else {"response": "No response found for this option."}
+        # Get the submenu response based on the intent ID and selected submenu option
+        intent_id = classify_intent(user_input)
+        submenu_response = get_submenu_response(intent_id, submenu_option)
+        return {'submenu_response': submenu_response} if submenu_response else {"response": "No response found for this option."}
 
-    # If no submenu option is found, classify the intent as usual
+    # Classify the intent based on user input
     intent_id = classify_intent(user_input)
 
     if intent_id:
@@ -38,11 +36,18 @@ def handle_input(user_input):
         intent = get_intent_by_id(intent_id)
         if intent and intent['has_submenu']:
             submenu_options = get_submenu_options(intent_id)
-            return {'response': response, 'submenu_options': submenu_options}
+            if response:
+                return {'response': response, 'submenu_options': submenu_options}
+            else:
+                # If response not found, but intent has submenu options, show custom message with intent name
+                intent_name = intent['intent_name']  # Get the intent's name
+                return {"response": f"Choose from the following topics about {intent_name}.", 'submenu_options': submenu_options}
 
-        return {'response': response}
+        # If no submenu, return the response
+        return {'response': response} if response else {"response": "Sorry, I didn't understand that."}
     else:
         return {"response": "Sorry, I didn't understand that."}
+
 
 def get_intent_by_submenu_option(submenu_option):
     """Retrieve intent ID based on submenu option."""

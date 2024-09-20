@@ -388,3 +388,17 @@ footer {
 .slideshow img.active {
     opacity: 1;
 }
+
+.submenu-button {
+    background-color: #d1e7dd; /* Light grey background */
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+    color: #333;
+    cursor: pointer;
+}
+
+.submenu-button:hover {
+    background-color: #9ee8c7; /* Light green on hover */
+}

@@ -81,7 +81,7 @@ function sendMessage() {
             // Check if there are submenu options to display
             if (data.submenu_options && data.submenu_options.length > 0) {
                 const submenuHtml = data.submenu_options.map(option => 
-                    `<button onclick="selectSubmenuOption('${option}')">${option}</button>`
+                    `<button class="submenu-button" onclick="selectSubmenuOption('${option}')">${option}</button>`
                 ).join('');
                 
                 addMessage(`<div>${submenuHtml}</div>`, 'bot'); // Display submenu options
