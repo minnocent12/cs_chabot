@@ -1,5 +1,5 @@
 from intents import load_intents_from_db
-from responses import get_response_for_intent, get_submenu_response
+from responses import get_response_for_intent, get_submenu_response, get_all_submenu_options
 from intent_classifier import classify_intent
 import sqlite3
 
@@ -17,9 +17,19 @@ def close_db(conn):
         conn.close()
 
 def handle_input(user_input):
-    # Classify the intent based on user input
+    # First, check if user input matches any submenu option
+    submenu_option = classify_submenu_option(user_input, get_all_submenu_options())  # Get all submenu options from the database
+    if submenu_option:
+        # Get the intent ID associated with the submenu option
+        intent_id = get_intent_by_submenu_option(submenu_option)  # New function to fetch intent ID by submenu option
+        if intent_id:
+            # Fetch the submenu response for the selected option
+            submenu_response = get_submenu_response(intent_id, submenu_option)
+            return {'submenu_response': submenu_response} if submenu_response else {"response": "No response found for this option."}
+
+    # If no submenu option is found, classify the intent as usual
     intent_id = classify_intent(user_input)
-    
+
     if intent_id:
         # Get the response for the classified intent
         response = get_response_for_intent(intent_id)
@@ -27,15 +37,25 @@ def handle_input(user_input):
         # Check if the intent has a submenu
         intent = get_intent_by_id(intent_id)
         if intent and intent['has_submenu']:
-            # If the user input contains a submenu option, return the submenu response
-            submenu_option = classify_submenu_option(user_input, get_submenu_options(intent_id))
-            if submenu_option:
-                submenu_response = get_submenu_response(intent_id, submenu_option)
-                return submenu_response
+            submenu_options = get_submenu_options(intent_id)
+            return {'response': response, 'submenu_options': submenu_options}
 
-        return response
+        return {'response': response}
     else:
-        return "Sorry, I didn't understand that."
+        return {"response": "Sorry, I didn't understand that."}
+
+def get_intent_by_submenu_option(submenu_option):
+    """Retrieve intent ID based on submenu option."""
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT intent_id FROM submenu_responses WHERE submenu_option = ?', (submenu_option,))
+        row = cursor.fetchone()
+        return row[0] if row else None
+    finally:
+        close_db(conn)
+
+
 
 def get_intent_by_id(intent_id):
     """Retrieve intent data by ID."""
@@ -55,7 +75,7 @@ def get_submenu_options(intent_id):
         cursor = conn.cursor()
         cursor.execute('SELECT submenu_option FROM submenu_responses WHERE intent_id = ?', (intent_id,))
         rows = cursor.fetchall()
-        return [row['submenu_option'] for row in rows]
+        return [row[0] for row in rows]
     finally:
         close_db(conn)
 
@@ -65,6 +85,7 @@ def classify_submenu_option(user_input, submenu_options):
         if option.lower() in user_input.lower():
             return option
     return None
+
 
 # CRUD operations for intents
 def get_intents_from_db():

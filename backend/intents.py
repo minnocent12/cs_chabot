@@ -5,11 +5,11 @@ DATABASE = 'database.db'
 def load_intents_from_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
-    
+
     # Get all intents
     cursor.execute('SELECT * FROM intents')
     rows = cursor.fetchall()
-    
+
     intents = []
     for row in rows:
         # For each intent, load the keywords and submenu options
@@ -22,7 +22,7 @@ def load_intents_from_db():
         if intent['has_submenu']:
             intent['submenu_options'] = load_submenu_options_for_intent(row[0])
         intents.append(intent)
-    
+
     conn.close()
     return intents
 

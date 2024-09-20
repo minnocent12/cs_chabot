@@ -27,3 +27,15 @@ def get_submenu_response(intent_id, submenu_option):
     if row:
         return row[0]
     return None
+
+
+
+def get_all_submenu_options():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT submenu_option FROM submenu_responses')
+    rows = cursor.fetchall()
+
+    conn.close()
+    return [row[0] for row in rows]

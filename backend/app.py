@@ -35,8 +35,8 @@ def database_management():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message')
-    response_message = handle_input(user_message)
-    return jsonify({'response': response_message})
+    response_data = handle_input(user_message)
+    return jsonify(response_data)
 
 # Intents management
 @app.route('/intents', methods=['GET'])

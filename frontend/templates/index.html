@@ -65,7 +65,7 @@
                 <a href="#">Arts & Ideas</a>
                 <a href="#">Athletics</a>
                 <a href="#">Campus Life</a>
-                <a href="/database">Manage Intents</a>
+                <a href="/database" target="_blank">Manage Intents</a>
             </div>
         </div>
         <div class="footer-logo">
@@ -84,51 +84,51 @@
             <span>404-413-2000</span>
         </div>
 
-        <!-- Chatbot icon and window -->
-    <div id="chat-icon" onclick="toggleChat()">
-        <img id="chat-icon-img" src="/assets/chat.png" alt="Chat Icon">
+
+<!-- Chatbot icon and window -->
+<div id="chat-icon" onclick="toggleChat()">
+    <img id="chat-icon-img" src="/assets/chat.png" alt="Chat Icon">
+</div>
+<div id="chat-window" class="hidden" role="dialog" aria-labelledby="chat-header" aria-modal="true">
+    <div class="chat-header" id="chat-header">
+        <span>How can I help you?</span>
+        <button onclick="closeChat()" aria-label="Close chat">X</button>
+        <button onclick="minimizeChat()" aria-label="Minimize chat">-</button>
     </div>
-    <div id="chat-window" class="hidden">
-        <div class="chat-header">
-            <span>How can I help you?</span>
-            <button onclick="closeChat()">X</button>
-            <button onclick="minimizeChat()">-</button>
-        </div>
-        <div class="bot-message-top">
-            <img src="/assets/chatbot_logo.png" alt="Bot Icon">
-            <p>Hello! How can I assist you today?</p>
-        </div>
-        <div class="chat-body">
-            <!-- User and bot messages will appear here dynamically -->
-        </div>
-        <div class="chat-footer">
-            <input type="text" id="user-input" placeholder="Type a message...">
-            <button onclick="sendMessage()">Send</button>
-            <button onclick="showDialog()">Predefined Questions</button>
-        </div>
+    <div class="bot-message-top">
+        <img src="/assets/chatbot_logo.png" alt="Bot Icon">
+        <p>Hello! How can I assist you today?</p>
     </div>
-
-    <!-- Predefined questions dialog -->
-    <div id="predefined-dialog" class="hidden">
-        <div class="dialog-header">
-            <span>Predefined Questions</span>
-            <button onclick="closeDialog()">X</button>
-        </div>
-        <div class="dialog-body">
-            <button onclick="askPredefinedQuestion('general info')">Tell me Overview of Programs</button>
-            <button onclick="askPredefinedQuestion('admission')">Admission process</button>
-            <button onclick="askPredefinedQuestion('research')">About the research</button>
-            <button onclick="askPredefinedQuestion('eligibility')">Eligibility requirements</button>
-            <button onclick="askPredefinedQuestion('graduation')">Graduation requirements</button>
-            <button onclick="askPredefinedQuestion('career')">Career opportunities</button>
-        </div>
-
-
-
-
-
-        
+    <div class="chat-body">
+        <!-- User and bot messages will appear here dynamically -->
     </div>
+    <div class="chat-footer">
+        <input type="text" id="user-input" placeholder="Type a message..." aria-label="User message input">
+        <button onclick="sendMessage()" aria-label="Send message">Send</button>
+        <button onclick="showDialog()" aria-label="Predefined questions">Predefined Questions</button>
+    </div>
+    <div class="submenu-container" id="submenu-container" style="display: none;">
+        <!-- Submenu options will be added here dynamically -->
+    </div>
+</div>
+
+<!-- Predefined questions dialog -->
+<div id="predefined-dialog" class="hidden" role="dialog" aria-labelledby="dialog-header" aria-modal="true">
+    <div class="dialog-header" id="dialog-header">
+        <span>Predefined Questions</span>
+        <button onclick="closeDialog()" aria-label="Close dialog">X</button>
+    </div>
+    <div class="dialog-body">
+        <button onclick="askPredefinedQuestion('general info')">Tell me Overview of Programs</button>
+        <button onclick="askPredefinedQuestion('admission')">Admission process</button>
+        <button onclick="askPredefinedQuestion('Class Registration Information')">Class Registration Information</button>
+        <button onclick="askPredefinedQuestion('research')">About the research</button>
+        <button onclick="askPredefinedQuestion('eligibility')">Eligibility requirements</button>
+        <button onclick="askPredefinedQuestion('graduation')">Graduation requirements</button>
+        <button onclick="askPredefinedQuestion('career')">Career opportunities</button>
+    </div>
+</div>
+
     </footer>
 
     <script src="/chat.js"></script>

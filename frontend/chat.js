@@ -55,7 +55,7 @@ function sendMessage() {
     addMessage(userInput, 'user');
     document.getElementById('user-input').value = ''; // Clear the input field
 
-    // Simulate chatbot "typing" effect by showing a typing indicator
+    // Simulate chatbot "typing" effect
     addMessage('...', 'bot-typing'); // Show typing dots
 
     fetch('/chat', {
@@ -67,13 +67,53 @@ function sendMessage() {
     })
     .then(response => response.json())
     .then(data => {
-        // Remove the typing indicator after a 2-3 second delay
         setTimeout(() => {
             removeTypingIndicator();
-            addMessage(data.response, 'bot'); // Add bot's response
+
+            // Check if there's a submenu response first
+            if (data.submenu_response) {
+                addMessage(data.submenu_response, 'bot'); // Display the submenu response
+            } else {
+                // Display the bot's regular response
+                addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
+            }
+            
+            // Check if there are submenu options to display
+            if (data.submenu_options && data.submenu_options.length > 0) {
+                const submenuHtml = data.submenu_options.map(option => 
+                    `<button onclick="selectSubmenuOption('${option}')">${option}</button>`
+                ).join('');
+                
+                addMessage(`<div>${submenuHtml}</div>`, 'bot'); // Display submenu options
+            }
         }, 2000); // Delay of 2 seconds
     });
 }
+
+    
+
+function selectSubmenuOption(option) {
+    addMessage(option, 'user'); // Display the selected submenu option
+    fetch('/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: option }) // Send the submenu option as a message
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Check if the response has submenu_response
+        if (data.submenu_response) {
+            addMessage(data.submenu_response, 'bot'); // Display the response for the submenu option
+        } else {
+            addMessage("Sorry, I couldn't get a response for that option.", 'bot'); // Handle undefined
+        }
+    });
+}
+
+
+
 
 function addMessage(message, sender) {
     const chatBody = document.querySelector('.chat-body');
