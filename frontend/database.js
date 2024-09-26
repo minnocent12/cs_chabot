@@ -30,6 +30,67 @@ function resetAllForms() {
 
 
 // Intents Functions
+
+let isSearchResultDisplayed = false;
+
+function fetchIntents() {
+    fetch('/intents')
+        .then(response => response.json())
+        .then(data => {
+            if (isSearchResultDisplayed) {
+                return;  // If search results are displayed, don't load regular results.
+            }
+            displayIntents(data);
+        });
+}
+
+function handleSearch(event) {
+    if (event.key === 'Enter') {
+        searchIntents();
+    }
+}
+
+function searchIntents() {
+    const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+
+    fetch('/intents')
+        .then(response => response.json())
+        .then(data => {
+            let filteredData;
+            if (!isNaN(searchQuery) && searchQuery !== '') {
+                // If the search query is a number, compare IDs exactly
+                const searchID = parseInt(searchQuery);
+                filteredData = data.filter(intent => intent.id === searchID);
+            } else {
+                // If the search query is not a number, filter by intent name
+                filteredData = data.filter(intent => 
+                    intent.intent_name.toLowerCase().includes(searchQuery)
+                );
+            }
+            displayIntents(filteredData);
+            isSearchResultDisplayed = true;  // Indicate search results are shown.
+        });
+}
+
+
+function displayIntents(data) {
+    const tableBody = document.querySelector('#intentsTable tbody');
+    tableBody.innerHTML = '';  // Clear any existing content
+    data.forEach(intent => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${intent.id}</td>
+            <td>${intent.intent_name}</td>
+            <td>${intent.has_submenu}</td>
+            <td>
+                <button onclick="populateUpdateIntentForm(${intent.id}, '${intent.intent_name}', ${intent.has_submenu})">Edit</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
 function fetchIntents() {
     fetch('/intents')
         .then(response => response.json())
@@ -53,7 +114,8 @@ function fetchIntents() {
 
 function unloadIntents() {
     const tableBody = document.querySelector('#intentsTable tbody');
-    tableBody.innerHTML = '';  // This will clear only the table content
+    tableBody.innerHTML = '';  // This will clear the table content
+    isSearchResultDisplayed = false;  // Reset search display flag
 }
 
 function addIntent() {
@@ -165,6 +227,53 @@ function populateUpdateIntentForm(id, name, hasSubmenu) {
 
 
 // Responses Functions
+
+
+function handleResponseSearch(event) {
+    if (event.key === 'Enter') {
+        searchResponses();
+    }
+}
+
+function searchResponses() {
+    const searchQuery = document.getElementById('searchResponseInput').value.trim().toLowerCase();
+
+    fetch('/responses')
+        .then(response => response.json())
+        .then(data => {
+            let filteredData;
+            if (!isNaN(searchQuery) && searchQuery !== '') {
+                // If the search query is a number, filter by exact intent_id
+                const searchIntentID = parseInt(searchQuery);
+                filteredData = data.filter(response => response.intent_id === searchIntentID);
+            } else {
+                // If the search query is not a number, filter by response text
+                filteredData = data.filter(response => 
+                    response.response.toLowerCase().includes(searchQuery)
+                );
+            }
+            displayResponses(filteredData); // Display filtered results
+        });
+}
+
+function displayResponses(data) {
+    const tableBody = document.querySelector('#responsesTable tbody');
+    tableBody.innerHTML = '';  // Clear existing content
+    data.forEach(response => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${response.id}</td>
+            <td>${response.intent_id}</td>
+            <td>${response.response}</td>
+            <td>
+                <button onclick="populateUpdateResponseForm(${response.id}, ${response.intent_id}, '${response.response}')">Edit</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
 function fetchResponses() {
     fetch('/responses')
         .then(response => response.json())
@@ -298,6 +407,51 @@ function populateUpdateResponseForm(id, intentId, response) {
 
 
 // Keywords Functions
+
+function handleKeywordSearch(event) {
+    if (event.key === 'Enter') {
+        searchKeywords();
+    }
+}
+
+function searchKeywords() {
+    const searchQuery = document.getElementById('searchKeywordInput').value.trim().toLowerCase();
+
+    fetch('/keywords')
+        .then(response => response.json())
+        .then(data => {
+            let filteredData;
+            if (!isNaN(searchQuery) && searchQuery !== '') {
+                // If search query is a number, filter by exact intent_id
+                const searchIntentID = parseInt(searchQuery);
+                filteredData = data.filter(keyword => keyword.intent_id === searchIntentID);
+            } else {
+                // If the search query is not a number, filter by keyword text
+                filteredData = data.filter(keyword =>
+                    keyword.keyword.toLowerCase().includes(searchQuery)
+                );
+            }
+            displayKeywords(filteredData); // Display filtered results
+        });
+}
+
+function displayKeywords(data) {
+    const tableBody = document.querySelector('#keywordsTable tbody');
+    tableBody.innerHTML = '';  // Clear existing content
+    data.forEach(keyword => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${keyword.id}</td>
+            <td>${keyword.intent_id}</td>
+            <td>${keyword.keyword}</td>
+            <td>
+                <button onclick="populateUpdateKeywordForm(${keyword.id}, ${keyword.intent_id}, '${keyword.keyword}')">Edit</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
 function fetchKeywords() {
     fetch('/keywords')
         .then(response => response.json())
@@ -429,6 +583,55 @@ function populateUpdateKeywordForm(id, intentId, keyword) {
 
 
 // Submenu Responses Functions
+
+
+function handleSubmenuSearch(event) {
+    if (event.key === 'Enter') {
+        searchSubmenuResponses();
+    }
+}
+
+function searchSubmenuResponses() {
+    const searchQuery = document.getElementById('searchSubmenuInput').value.trim().toLowerCase();
+
+    fetch('/submenu_responses')
+        .then(response => response.json())
+        .then(data => {
+            let filteredData;
+            if (!isNaN(searchQuery) && searchQuery !== '') {
+                // If search query is a number, filter by exact intent_id
+                const searchIntentID = parseInt(searchQuery);
+                filteredData = data.filter(response => response.intent_id === searchIntentID);
+            } else {
+                // If the search query is not a number, filter by submenu_option or submenu_response text
+                filteredData = data.filter(response =>
+                    response.submenu_option.toLowerCase().includes(searchQuery) ||
+                    response.submenu_response.toLowerCase().includes(searchQuery)
+                );
+            }
+            displaySubmenuResponses(filteredData); // Display filtered results
+        });
+}
+
+function displaySubmenuResponses(data) {
+    const tableBody = document.querySelector('#submenuResponsesTable tbody');
+    tableBody.innerHTML = '';  // Clear any existing content
+    data.forEach(response => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${response.id}</td>
+            <td>${response.intent_id}</td>
+            <td>${response.submenu_option}</td>
+            <td>${response.submenu_response}</td>
+            <td>
+                <button onclick="populateUpdateSubmenuResponseForm(${response.id}, ${response.intent_id}, '${response.submenu_option}', '${response.submenu_response}')">Edit</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
 function fetchSubmenuResponses() {
     fetch('/submenu_responses')
         .then(response => response.json())

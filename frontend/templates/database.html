@@ -23,8 +23,11 @@
                 <div class="scrollable">
                     <div>
                         <h2>View Intents</h2>
-                        <button onclick="fetchIntents()">Load</button>
-                        <button class="unloadbutton" onclick="unloadIntents()">Unload</button>
+                        <div class="button-group">
+                            <button onclick="fetchIntents()">Load</button>
+                            <input type="text" id="searchInput" class="searchInput" placeholder="Search by ID or Intent Name" onkeydown="handleSearch(event)" />
+                            <button class="unloadbutton" onclick="unloadIntents()">Unload</button>
+                        </div>
                         <table id="intentsTable">
                             <thead>
                                 <tr>
@@ -88,8 +91,11 @@
                 <div class="scrollable">
                     <div>
                         <h2>View Responses</h2>
-                        <button onclick="fetchResponses()">Load</button>
-                        <button class="unloadbutton" onclick="unloadResponses()">Unload </button>
+                        <div class="button-group">
+                            <button onclick="fetchResponses()">Load</button>
+                            <input type="text" id="searchResponseInput" class="searchInput" placeholder="Search by Intent ID or Response" onkeydown="handleResponseSearch(event)" />
+                            <button class="unloadbutton" onclick="unloadResponses()">Unload</button>
+                        </div>
                         <table id="responsesTable">
                             <thead>
                                 <tr>
@@ -145,8 +151,11 @@
                 <div class="scrollable">
                     <div>
                         <h2>View Keywords</h2>
-                        <button onclick="fetchKeywords()">Load</button>
-                        <button class="unloadbutton" onclick="unloadKeywords()">Unload</button>
+                        <div class="button-group">
+                            <button onclick="fetchKeywords()">Load</button>
+                            <input type="text" id="searchKeywordInput" class="searchInput" placeholder="Search by Intent ID or Keyword" onkeydown="handleKeywordSearch(event)" />
+                            <button class="unloadbutton" onclick="unloadKeywords()">Unload</button>
+                        </div>
                         <table id="keywordsTable">
                             <thead>
                                 <tr>
@@ -202,8 +211,11 @@
                 <div class="scrollable">
                     <div>
                         <h2>View Submenu Responses</h2>
-                        <button onclick="fetchSubmenuResponses()">Load</button>
-                        <button class="unloadbutton" onclick="unloadSubmenuResponses()">Unload</button>
+                        <div class="button-group">
+                            <button onclick="fetchSubmenuResponses()">Load</button>
+                            <input type="text" id="searchSubmenuInput" class="searchInput" placeholder="Search by Intent ID, Submenu Option or Submenu Response" onkeydown="handleSubmenuSearch(event)" />
+                            <button class="unloadbutton" onclick="unloadSubmenuResponses()">Unload</button>
+                        </div>
                         <table id="submenuResponsesTable">
                             <thead>
                                 <tr>

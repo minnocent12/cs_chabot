@@ -13,10 +13,7 @@ header, footer {
     cursor: pointer;
     text-decoration: none;
     font-size: 25px;
-    font-weight:bolder;
-  
-    
-
+    font-weight: bolder;
 }
 
 main {
@@ -38,7 +35,6 @@ main {
     min-width: 300px;
     max-height: 1000px;
     overflow: auto;
-
     padding: 1em;
     border: 1px solid #ddd;
     display: flex;
@@ -62,6 +58,13 @@ th {
     background-color: #f4f4f4;
 }
 
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
 button {
     padding: 10px 20px;
     border: none;
@@ -69,14 +72,32 @@ button {
     background-color: #4CAF50; /* Green color */
     color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
 button:hover {
     background-color: #45a049; /* Darker green on hover */
 }
 
 .unloadbutton {
-    float: right;
+    float: none;
 }
+
+input.searchInput {
+    padding: 8px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 3px;
+    flex-grow: 1;  /* Take up available space between buttons */
+    margin: 0 10px; /* Margin to space it from the buttons */
+}
+
+/* Override default blue border on focus */
+input.searchInput:focus {
+    outline: none; /* Remove default blue outline */
+    border: 2px solid #4CAF50; /* Keep the green border */
+}
+
+
 
 
 
@@ -97,7 +118,7 @@ form input, form textarea, form select {
 
 
 
-
+/* Dialog Box Styling */
 .dialog {
     position: fixed;
     top: 0;
