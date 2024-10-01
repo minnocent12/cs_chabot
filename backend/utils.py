@@ -17,15 +17,19 @@ def close_db(conn):
         conn.close()
 
 def handle_input(user_input):
-    # Check if user input matches any submenu option
-    submenu_option = classify_submenu_option(user_input, get_all_submenu_options())
+    # Retrieve all submenu options from the database
+    submenu_options = get_all_submenu_options()  # Assuming you have a function that does this
+    
+    # Classify if the user input contains a submenu option
+    submenu_option = classify_submenu_option(user_input, submenu_options)
+    
     if submenu_option:
         # Get the submenu response based on the intent ID and selected submenu option
-        intent_id = classify_intent(user_input)
+        intent_id = get_intent_by_submenu_option(submenu_option)
         submenu_response = get_submenu_response(intent_id, submenu_option)
         return {'submenu_response': submenu_response} if submenu_response else {"response": "No response found for this option."}
 
-    # Classify the intent based on user input
+    # Continue with regular intent classification if no submenu option matched
     intent_id = classify_intent(user_input)
 
     if intent_id:
@@ -39,14 +43,15 @@ def handle_input(user_input):
             if response:
                 return {'response': response, 'submenu_options': submenu_options}
             else:
-                # If response not found, but intent has submenu options, show custom message with intent name
-                intent_name = intent['intent_name']  # Get the intent's name
+                # Custom message if no direct response but there are submenu options
+                intent_name = intent['intent_name']
                 return {"response": f"Choose from the following topics about {intent_name}.", 'submenu_options': submenu_options}
-
+        
         # If no submenu, return the response
         return {'response': response} if response else {"response": "Sorry, I didn't understand that."}
     else:
         return {"response": "Sorry, I didn't understand that."}
+
 
 
 def get_intent_by_submenu_option(submenu_option):
@@ -85,11 +90,22 @@ def get_submenu_options(intent_id):
         close_db(conn)
 
 def classify_submenu_option(user_input, submenu_options):
-    """Check if the user input matches any of the submenu options."""
-    for option in submenu_options:
-        if option.lower() in user_input.lower():
-            return option
+    """Classifies a submenu option from the user input based on a list of submenu options."""
+    for submenu_option in submenu_options:
+        if submenu_option[0].lower() in user_input.lower():
+            return submenu_option[0]  # Return the matched submenu option
     return None
+
+def get_all_submenu_options():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT submenu_option FROM submenu_responses')
+    submenu_options = cursor.fetchall()
+    
+    conn.close()
+    return submenu_options
+
 
 
 # CRUD operations for intents
@@ -207,23 +223,23 @@ def get_keywords_from_db():
     finally:
         close_db(conn)
 
-def add_keyword_to_db(intent_id, keyword):
-    """Add a new keyword to the database."""
+def add_keyword_to_db(intent_id, keyword, priority=1):
+    """Add a new keyword to the database with a specified priority."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO keywords (intent_id, keyword) VALUES (?, ?)', (intent_id, keyword))
+        cursor.execute('INSERT INTO keywords (intent_id, keyword, priority) VALUES (?, ?, ?)', (intent_id, keyword, priority))
         conn.commit()
         return cursor.rowcount > 0
     finally:
         close_db(conn)
 
-def update_keyword_in_db(keyword_id, keyword):
-    """Update an existing keyword in the database."""
+def update_keyword_in_db(intent_id, keyword, new_priority):
+    """Update the priority of an existing keyword."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('UPDATE keywords SET keyword = ? WHERE id = ?', (keyword, keyword_id))
+        cursor.execute('UPDATE keywords SET priority = ? WHERE intent_id = ? AND keyword = ?', (new_priority, intent_id, keyword))
         conn.commit()
         return cursor.rowcount > 0
     finally:
