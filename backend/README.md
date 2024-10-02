@@ -81,5 +81,5 @@ python3 backend/app.py
 git hub codes to do once you made changes
 
 git add .
-git commit -m "new changes"
+git commit -m "new change"
 git push -u origin main  
