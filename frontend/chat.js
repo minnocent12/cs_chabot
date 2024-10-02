@@ -50,13 +50,12 @@ function minimizeChat() {
 
 function sendMessage() {
     const userInput = document.getElementById('user-input').value;
-    if (!userInput.trim()) return; // Do nothing if the input is empty
+    if (!userInput.trim()) return;
 
     addMessage(userInput, 'user');
-    document.getElementById('user-input').value = ''; // Clear the input field
+    document.getElementById('user-input').value = '';
 
-    // Simulate chatbot "typing" effect
-    addMessage('...', 'bot-typing'); // Show typing dots
+    addMessage('...', 'bot-typing');
 
     fetch('/chat', {
         method: 'POST',
@@ -70,25 +69,54 @@ function sendMessage() {
         setTimeout(() => {
             removeTypingIndicator();
 
-            // Check if there's a submenu response first
             if (data.submenu_response) {
-                addMessage(data.submenu_response, 'bot'); // Display the submenu response
+                addMessage(data.submenu_response, 'bot');
+            } else if (data.choose_keyword) {
+                // Dynamically show keywords as clickable buttons
+                const keywordButtons = data.choose_keyword.map(keyword => 
+                    `<button class="submenu-button" onclick="selectKeyword('${keyword}')">${keyword}</button>`
+                ).join('');
+                addMessage(`<div>${keywordButtons}</div>`, 'bot');
             } else {
-                // Display the bot's regular response
                 addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
             }
             
-            // Check if there are submenu options to display
             if (data.submenu_options && data.submenu_options.length > 0) {
                 const submenuHtml = data.submenu_options.map(option => 
                     `<button class="submenu-button" onclick="selectSubmenuOption('${option}')">${option}</button>`
                 ).join('');
-                
-                addMessage(`<div>${submenuHtml}</div>`, 'bot'); // Display submenu options
+                addMessage(`<div>${submenuHtml}</div>`, 'bot');
             }
-        }, 2000); // Delay of 2 seconds
+        }, 2000);
     });
 }
+
+function selectKeyword(keyword) {
+    addMessage(keyword, 'user');
+    fetch('/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: keyword })
+    })
+    .then(response => response.json())
+    .then(data => {
+        removeTypingIndicator(); // Ensure typing indicator is removed
+        
+        // If the response has submenu options, display them
+        if (data.submenu_options && data.submenu_options.length > 0) {
+            const submenuHtml = data.submenu_options.map(option => 
+                `<button class="submenu-button" onclick="selectSubmenuOption('${option}')">${option}</button>`
+            ).join('');
+            addMessage(`<div>${submenuHtml}</div>`, 'bot');
+        } else {
+            addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
+        }
+    });
+}
+
+
 
     
 
