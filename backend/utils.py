@@ -17,40 +17,62 @@ def close_db(conn):
         conn.close()
 
 def handle_input(user_input):
-    # Retrieve all submenu options from the database
-    submenu_options = get_all_submenu_options()  # Assuming you have a function that does this
-    
-    # Classify if the user input contains a submenu option
+    submenu_options = get_all_submenu_options()
+
+    # Classify input for submenu options
     submenu_option = classify_submenu_option(user_input, submenu_options)
-    
+
     if submenu_option:
-        # Get the submenu response based on the intent ID and selected submenu option
         intent_id = get_intent_by_submenu_option(submenu_option)
         submenu_response = get_submenu_response(intent_id, submenu_option)
-        return {'submenu_response': submenu_response} if submenu_response else {"response": "No response found for this option."}
+        return {
+            'submenu_response': submenu_response,
+            'submenu_options': get_submenu_options(intent_id)
+        } if submenu_response else {"response": "No response found."}
 
-    # Continue with regular intent classification if no submenu option matched
-    intent_id = classify_intent(user_input)
+    # Classify intent
+    classification_result = classify_intent(user_input)
+
+    if classification_result is None:
+        return {"response": "Sorry, I didn't understand that."}
+
+    # Handle case with multiple intents having the same priority
+    if 'multiple_intents' in classification_result:
+        # Display the options for the user to choose from
+        intent_choices = [{"intent_id": intent_id, "keyword": keyword} for intent_id, keyword in classification_result['multiple_intents']]
+        keywords = [kw['keyword'] for kw in intent_choices]
+
+        return {
+            'response': f"Please choose one of the following options:",
+            'choose_keyword': keywords,  # This will show as options for the user to select from
+            'intent_choices': intent_choices  # Send back the full options with their intent_ids for processing later
+        }
+
+    # If a single intent is determined
+    intent_id = classification_result.get('intent_id')
 
     if intent_id:
-        # Get the response for the classified intent
         response = get_response_for_intent(intent_id)
-        
-        # Check if the intent has a submenu
         intent = get_intent_by_id(intent_id)
+
         if intent and intent['has_submenu']:
             submenu_options = get_submenu_options(intent_id)
             if response:
-                return {'response': response, 'submenu_options': submenu_options}
+                return {
+                    'response': response,
+                    'submenu_options': submenu_options
+                }
             else:
-                # Custom message if no direct response but there are submenu options
                 intent_name = intent['intent_name']
-                return {"response": f"Choose from the following topics about {intent_name}.", 'submenu_options': submenu_options}
-        
-        # If no submenu, return the response
+                return {
+                    'response': f"Choose from the following topics about {intent_name}.",
+                    'submenu_options': submenu_options
+                }
+
         return {'response': response} if response else {"response": "Sorry, I didn't understand that."}
-    else:
-        return {"response": "Sorry, I didn't understand that."}
+
+    return {"response": "Sorry, I didn't understand that."}
+
 
 
 
