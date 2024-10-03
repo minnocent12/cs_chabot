@@ -72,9 +72,8 @@ Contributions are welcome! Feel free to fork the repository and submit pull requ
 License
 This project is licensed under the INNOSTAR License.
 
-
-
-source path/to/venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 python3 backend/app.py
 
 
