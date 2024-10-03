@@ -72,11 +72,14 @@ function sendMessage() {
             if (data.submenu_response) {
                 addMessage(data.submenu_response, 'bot');
             } else if (data.choose_keyword) {
-                // Dynamically show keywords as clickable buttons
+                // Dynamically show message with keywords as clickable buttons
                 const keywordButtons = data.choose_keyword.map(keyword => 
                     `<button class="submenu-button" onclick="selectKeyword('${keyword}')">${keyword}</button>`
                 ).join('');
-                addMessage(`<div>${keywordButtons}</div>`, 'bot');
+
+                // Combine the message and the keyword buttons into one response
+                const messageWithKeywords = `<p>${data.response}</p><div>${keywordButtons}</div>`;
+                addMessage(messageWithKeywords, 'bot');
             } else {
                 addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
             }
@@ -90,6 +93,7 @@ function sendMessage() {
         }, 2000);
     });
 }
+
 
 function selectKeyword(keyword) {
     addMessage(keyword, 'user');
