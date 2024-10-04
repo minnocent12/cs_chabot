@@ -69,12 +69,11 @@ def handle_input(user_input):
                 'submenu_options': submenu_options
             }
 
-        return {'response': response} if response else {"response": "Sorry, I didn't understand that."}
+        return {'response': response} if response else {"response": "I'm having trouble understanding that.  "}
 
-    return {"response": "Sorry, I didn't understand that."}
+    return {"response": "Sorry, I didn't understand that. Try entering a short phrase, such as 'How do I request to transfer a graduate course?' or 'What should I do if a class is full?'."}
 
-
-
+ 
 
 
 def get_intent_by_submenu_option(submenu_option):
@@ -257,12 +256,12 @@ def add_keyword_to_db(intent_id, keyword, priority=1):
     finally:
         close_db(conn)
 
-def update_keyword_in_db(intent_id, keyword, new_priority):
-    """Update the priority of an existing keyword."""
+def update_keyword_in_db(keyword_id, new_keyword, new_priority):
+    """Update the keyword text and priority of an existing keyword."""
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('UPDATE keywords SET priority = ? WHERE intent_id = ? AND keyword = ?', (new_priority, intent_id, keyword))
+        cursor.execute('UPDATE keywords SET keyword = ?, priority = ? WHERE id = ?', (new_keyword, new_priority, keyword_id))
         conn.commit()
         return cursor.rowcount > 0
     finally:

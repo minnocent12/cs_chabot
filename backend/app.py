@@ -119,10 +119,15 @@ def add_keyword():
 def update_keyword():
     data = request.json
     keyword_id = data.get('id')
+    new_keyword = data.get('keyword')
+    new_priority = data.get('priority')
     
-    keyword = data.get('keyword')
-    success = update_keyword_in_db(keyword_id, keyword)
+    if not keyword_id or not new_keyword or new_priority is None:
+        return jsonify({'success': False, 'message': 'Invalid input.'}), 400
+    
+    success = update_keyword_in_db(keyword_id, new_keyword, new_priority)
     return jsonify({'success': success})
+
 
 @app.route('/keywords/delete', methods=['POST'])
 def delete_keyword():

@@ -519,9 +519,10 @@ function updateKeyword() {
     const form = document.getElementById('updateKeywordForm');
     const updateKeywordId = form.updateKeywordId.value.trim();
     const updateKeywordText = form.updateKeywordText.value.trim();
+    const updateKeywordPriority = form.updateKeywordPriority.value.trim();
 
     // Validate form inputs
-    if (!updateKeywordId || !updateKeywordText) {
+    if (!updateKeywordId || !updateKeywordText || updateKeywordPriority === '') {
         showDialog('Please fill in all required fields', false);
         return; // Prevent form submission if validation fails
     }
@@ -529,8 +530,9 @@ function updateKeyword() {
     fetch('/keywords/update', {
         method: 'POST',
         body: JSON.stringify({
-            id: updateKeywordId,
-            keyword: updateKeywordText
+            id: parseInt(updateKeywordId),
+            keyword: updateKeywordText,
+            priority: parseInt(updateKeywordPriority)
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -542,7 +544,7 @@ function updateKeyword() {
             showDialog('Keyword updated successfully!', true); // Use a dialog box instead of alert
             fetchKeywords(); // Reload the keywords to reflect the changes
         } else {
-            showDialog('Error updating keyword.', false);
+            showDialog(data.message || 'Error updating keyword.', false);
         }
     })
     .catch(error => {
