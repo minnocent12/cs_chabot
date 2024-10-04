@@ -69,26 +69,25 @@ function sendMessage() {
         setTimeout(() => {
             removeTypingIndicator();
 
-            if (data.submenu_response) {
-                addMessage(data.submenu_response, 'bot');
-            } else if (data.choose_keyword) {
-                // Dynamically show message with keywords as clickable buttons
+            if (data.choose_keyword) {
+                // Combine the message with keyword options
                 const keywordButtons = data.choose_keyword.map(keyword => 
                     `<button class="submenu-button" onclick="selectKeyword('${keyword}')">${keyword}</button>`
                 ).join('');
-
-                // Combine the message and the keyword buttons into one response
                 const messageWithKeywords = `<p>${data.response}</p><div>${keywordButtons}</div>`;
                 addMessage(messageWithKeywords, 'bot');
-            } else {
-                addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
-            }
-            
-            if (data.submenu_options && data.submenu_options.length > 0) {
-                const submenuHtml = data.submenu_options.map(option => 
+            } else if (data.submenu_options && data.submenu_options.length > 0) {
+                // Create submenu buttons
+                const submenuButtons = data.submenu_options.map(option => 
                     `<button class="submenu-button" onclick="selectSubmenuOption('${option}')">${option}</button>`
                 ).join('');
-                addMessage(`<div>${submenuHtml}</div>`, 'bot');
+
+                // Combine the response message with submenu options into a single message
+                const messageWithSubmenu = `<p>${data.response}</p><div>${submenuButtons}</div>`;
+                addMessage(messageWithSubmenu, 'bot');
+            } else {
+                // Show the bot's response if there are no submenu options
+                addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
             }
         }, 2000);
     });
