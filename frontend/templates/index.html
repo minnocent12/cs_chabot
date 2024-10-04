@@ -43,7 +43,7 @@
     <!-- Main Content with Slideshow -->
     <div class="main-content">
         <div class="slideshow">
-            <img src="/assets/cs2.jpg" alt="Image 1" class="active">
+            <img src="/assets/cs2.jpg" alt="Image 1" class="active" loading="lazy">
             <img src="/assets/cs3.jpg" alt="Image 2">
             <img src="/assets/cs1.jpg" alt="Image 3">
             <img src="/assets/cs4.jpeg" alt="Image 4">
@@ -91,13 +91,14 @@
 </div>
 <div id="chat-window" class="hidden" role="dialog" aria-labelledby="chat-header" aria-modal="true">
     <div class="chat-header" id="chat-header">
-        <span>How can I help you?</span>
+        <img src="/assets/chat.png" width="15%" alt="Bot Icon"> &nbsp;
+        <span>Ask Blue</span>
         <button onclick="closeChat()" aria-label="Close chat">X</button>
         <button onclick="minimizeChat()" aria-label="Minimize chat">-</button>
     </div>
     <div class="bot-message-top">
         <img src="/assets/chatbot_logo.png" alt="Bot Icon">
-        <p>Hello! How can I assist you today?</p>
+        <p>Hi there! I'm Blue®, the graduate handbook virtual assistant. How can I help you today?</p>
     </div>
     <div class="chat-body">
         <!-- User and bot messages will appear here dynamically -->
@@ -131,6 +132,6 @@
 </div>
 
     </footer>
-    <script src="/chat.js"></script>
+    <script src="/chat.js" defer></script>
 </body>
 </html>

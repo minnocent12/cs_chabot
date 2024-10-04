@@ -163,12 +163,11 @@ function addMessage(message, sender) {
         `;
     } else if (sender === 'bot-typing') {
         messageElement.innerHTML = `
-            
             <div class="message-content">
-                <p class="typing-indicator">${message}</p>
+                <p class="typing-indicator">Blue is typing</p>
             </div>
         `;
-        messageElement.id = 'typing-indicator'; // Set an ID for later removal
+        messageElement.id = 'typing-indicator';
     } else {
         messageElement.innerHTML = `
             <div class="message-content">
@@ -178,8 +177,8 @@ function addMessage(message, sender) {
         `;
     }
 
-    chatBody.appendChild(messageElement); // Append new messages at the bottom
-    chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the latest message
+    chatBody.appendChild(messageElement);
+    chatBody.scrollTop = chatBody.scrollHeight;
 }
 
 function removeTypingIndicator() {
@@ -243,3 +242,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showSlides(); // Start the slideshow
 });
+
