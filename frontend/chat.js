@@ -190,20 +190,40 @@ function removeTypingIndicator() {
 
 
 function askPredefinedQuestion(question) {
-    addMessage(question, 'user'); // Display user's predefined question
+    addMessage(question, 'user'); // Display user's predefined question as their input
+    
     fetch('/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ message: question })
+        body: JSON.stringify({ message: question }) // Send the question to the backend
     })
     .then(response => response.json())
     .then(data => {
-        addMessage(data.response, 'bot'); // Display bot's response
-        closeDialog(); // Close the dialog after selecting a question
+        if (data.submenu_options && data.submenu_options.length > 0) {
+            // If there are submenu options, display them as buttons
+            const submenuHtml = data.submenu_options.map(option => 
+                `<button class="submenu-button" onclick="selectSubmenuOption('${option}')">${option}</button>`
+            ).join('');
+
+            // Combine the response message with submenu options into a single message
+            const messageWithSubmenu = `<p>${data.response}</p><div>${submenuHtml}</div>`;
+
+            addMessage(messageWithSubmenu, 'bot');
+        } else {
+            // If no submenu options, display the bot's response
+            addMessage(data.response || "Sorry, I didn't understand that.", 'bot');
+        }
+        
+        closeDialog(); // Close the dialog after selecting a predefined question
+    })
+    .catch(error => {
+        console.error('Error:', error); // Handle any potential errors
+        addMessage("Oops, something went wrong. Please try again.", 'bot');
     });
 }
+
 
 function showDialog() {
     const dialog = document.getElementById('predefined-dialog');
