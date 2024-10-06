@@ -153,6 +153,16 @@ function addMessage(message, sender) {
 
     const currentTime = getCurrentTime();
 
+    // Convert URLs and emails into clickable links
+    message = message.replace(
+        /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, 
+        '<a href="$1" target="_blank">$1</a>'
+    );
+    message = message.replace(
+        /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/gi,
+        '<a href="mailto:$1">$1</a>'
+    );
+
     if (sender === 'bot') {
         messageElement.innerHTML = `
             <img src="/assets/chatbot_logo.png" alt="Bot Icon">

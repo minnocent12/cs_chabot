@@ -167,6 +167,16 @@ header {
     border-bottom-right-radius: 15px;
 }
 
+.chat-body a {
+    text-decoration: none;  /* Remove underline */
+    color: blue;            /* Optional: Set a custom color for the link */
+}
+
+.chat-body a:hover {
+    text-decoration: underline;  /* Optional: Add underline on hover */
+    transform: translateY(-2px);
+}
+
 .user-message, .bot-message {
     padding: 5px 10px;
     border-radius: 20px; /* More rounded message bubbles */
