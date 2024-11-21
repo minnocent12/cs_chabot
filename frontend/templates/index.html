@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Science Chatbot</title>
+    <link rel="stylesheet" href="/style.css">
+    <!-- Bootstrap CSS -->
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="header-part1">
+            <div class="header-left">
+                <img src="/assets/logo.png" alt="University Logo">
+            </div>
+            <div class="header-right">
+                <a href="#">Students</a>
+                <span class="separator"></span>
+                <a href="#">Faculty and Staff</a>
+                <span class="separator"></span>
+                <a href="#">Alumni</a>
+                <span class="separator"></span>
+                <img src="/assets/calendar.png" alt="Calendar Icon">
+                <span class="separator"></span>
+                <img src="/assets/location.png" alt="Location Icon">
+                <span class="separator"></span>
+                <img src="/assets/search.png" alt="Search Icon">
+            </div>
+        </div>
+        <div class="header-part2">
+            <a href="#" class="university-link">Georgia State University</a>
+        </div>
+        <div class="header-links">
+            <a href="#">About</a>
+            <a href="#">Academics</a>
+            <a href="#">Admissions</a>
+            <a href="#">Research</a>
+            <a href="#">Athletics</a>
+            <a href="#">Alumni</a>
+            <a href="#">Giving</a>
+        </div>
+    </header>
+
+    <!-- Main Content with Slideshow -->
+    <div class="main-content">
+        <div class="slideshow">
+            <img src="/assets/cs2.jpg" alt="Image 1" class="active" loading="lazy">
+            <img src="/assets/cs3.jpg" alt="Image 2">
+            <img src="/assets/cs1.jpg" alt="Image 3">
+            <img src="/assets/cs4.jpeg" alt="Image 4">
+            <img src="/assets/cs5.jpeg" alt="Image 5">
+        </div>
+    </div>
+
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <div class="footer-left">
+                <a href="#">About</a>
+                <a href="#">Student Success</a>
+                <a href="#">Connections</a>
+            </div>
+            <div class="footer-right">
+                <a href="#">Arts & Ideas</a>
+                <a href="#">Athletics</a>
+                <a href="#">Campus Life</a>
+                <a href="/database" target="_blank">Manage Intents</a>
+                <a href="/feedback_management" target="_blank">feedback management</a>
+                <a href="/upload" target="_blank">upload pdf</a>
+            </div>
+        </div>
+        <div class="footer-logo">
+            <img src="/assets/logo.png" alt="University Logo">
+        </div>
+        <div class="social-media-links">
+            <a href="#"><img src="/assets/facebook.png" alt="Facebook"></a>
+            <a href="#"><img src="/assets/x.png" alt="X"></a>
+            <a href="#"><img src="/assets/linkedin.png" alt="LinkedIn"></a>
+            <a href="#"><img src="/assets/instagram.png" alt="Instagram"></a>
+            <a href="#"><img src="/assets/youtube.png" alt="YouTube"></a>
+        </div>
+        <div class="footer-info">
+            <span>Georgia State University</span> |
+            <span>33 Gilmer Street SE Atlanta, GA 30303</span> |
+            <span>404-413-2000</span>
+        </div>
+
+
+<!-- Chatbot icon and window -->
+<div id="chat-icon" onclick="toggleChat()">
+    <img id="chat-icon-img" src="/assets/chat.png" alt="Chat Icon">
+</div>
+<div id="chat-window" class="hidden" role="dialog" aria-labelledby="chat-header" aria-modal="true">
+    <div class="chat-header" id="chat-header">
+        <img src="/assets/chat.png" width="15%" alt="Bot Icon"> &nbsp;
+        <span>Ask Blue</span>
+        <button onclick="closeChat()" aria-label="Close chat">X</button>
+        <button onclick="minimizeChat()" aria-label="Minimize chat">-</button>
+    </div>
+    <div class="bot-message-top">
+        <img src="/assets/chatbot_logo.png" alt="Bot Icon">
+        <p>Hi there! I'm Blue, the graduate handbook virtual assistant. How can I help you today?</p>
+    </div>
+    <div class="chat-body">
+        <!-- User and bot messages will appear here dynamically -->
+    </div>
+    
+
+    <div class="chat-footer">
+        <textarea id="user-input" placeholder="Type a message..." aria-label="User message input" rows="0"></textarea>
+        <button onclick="sendMessage()" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+        <button onclick="showDialog()" aria-label="Predefined questions">Predefined Questions</button>
+    </div>
+    
+    <div class="submenu-container" id="submenu-container" style="display: none;">
+        <!-- Submenu options will be added here dynamically -->
+    </div>
+</div>
+
+<!-- Predefined questions dialog -->
+<div id="predefined-dialog" class="hidden" role="dialog" aria-labelledby="dialog-header" aria-modal="true">
+    <div class="dialog-header" id="dialog-header">
+        <span>Predefined Questions</span>
+        <button onclick="closeDialog()" aria-label="Close dialog">X</button>
+    </div>
+    <div class="dialog-body">
+        <button onclick="askPredefinedQuestion('Computer Science')">Tell me Overview of Programs</button>
+        <button onclick="askPredefinedQuestion('Student center')">Offices in Student Center</button>
+        <button onclick="askPredefinedQuestion('Cs research ')">About the research</button>
+        <button onclick="askPredefinedQuestion('Student conduct')">about Student Conduct</button>
+        <button onclick="askPredefinedQuestion('Class Registration Information')">Class Registration Information</button>
+        <button onclick="askPredefinedQuestion('Transferring')">Information on Transferring</button>
+        <button onclick="askPredefinedQuestion('Masters degree')">Information on M.S. Degree</button>
+        <button onclick="askPredefinedQuestion('Ph.d degree')">Information on Ph.D. Degree</button>
+    </div>
+</div>
+    </footer>
+    <script src="/chat.js" defer></script>
+</body>
+</html>
