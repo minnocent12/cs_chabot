@@ -1,7 +1,0 @@
-Flask
-openai
-scikit-learn
-numpy
-pandas
-tqdm
-requests
