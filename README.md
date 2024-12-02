@@ -32,30 +32,35 @@ cs_chatbot/
 
 Installation
 
-Clone the Repository:
 
+Clone the Repository:
+Open terminal and navigate to the folder you want to locate the project and then run the following commands:
 
 git clone git@github.com:minnocent12/cs_chabot.git
+cd cs_chabot 
+rm -rf .git 
 
-cd cs_chatbot
-Set up a Virtual Environment:
-
+Zipped the file:
+Download the zip the file and place it into the directory you would like to place your project, then unzip the file, then run the following command:
+cd cs_chabot
+rm -rf .git 
+Set up a Virtual Environment after clone the repository or zip the file:
 
 python3 -m venv venv
 
-.\venv\Scripts\activate  (to activate the environment in windows Os)
+.\venv\Scripts\activate  (to activate the environment in windows OS)
 
-source venv/bin/activate   (to activate the environment in Mac Os)
-
+source venv/bin/activate  (to activate the environment in Mac OS)
 
 Install the Dependencies:
 
-
 pip install -r requirements.txt
+If your pip is outdated run this command: pip install --upgrade pip
 
-# After installing, run: python -m spacy download en_core_web_lg
+# After installation of dependencies and updating pip, run the following command to install Natural Language Processing large Mode: 
+python -m spacy download en_core_web_lg
 
-then run :
+then run:
 
 python3 backend/app.py
 
@@ -67,9 +72,12 @@ Usage
 
 Click on the chat icon at the bottom-right corner of the webpage to initiate a conversation with the bot.
 You can ask predefined questions using buttons like "What programs are offered by the Computer Science Department?
-" or "What should I do if a class is full?."
+" or "What should I do if a class is full?"
+
 For open-ended questions, simply type your question, and the chatbot will either match it to an intent or generate a response similarity matching.
+
 Technologies Used
+
 Flask: Web framework for the backend server.
 JavaScript (chat.js): Manages the frontend chatbot interaction.
 CSS (style.css): Styling for the chatbot widget.
@@ -80,3 +88,4 @@ Contributions are welcome! Feel free to fork the repository and submit pull requ
 
 License
 This project is licensed under the INNOSTAR License.
+
