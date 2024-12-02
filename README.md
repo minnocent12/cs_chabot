@@ -9,26 +9,25 @@ Web Interface: A frontend interface with a chatbot widget that users can interac
 Project Structure
 
 cs_chatbot/
-│
 ├── backend/
-│   ├── app.py                # Flask app for handling backend routes and logic
-│   ├── utils.py              # Utility functions for handling user input, intent matching, and responses
-│   ├── intents.py            # Predefined intents for the chatbot (e.g., courses, admissions, etc.)
-│   ├── responses.py          # Predefined responses and GPT-3 integration
-│   ├── intent_classifier.py  # NLP-based intent classification using machine learning
-│   ├── nlp_utils.py          # Helper functions for NLP preprocessing
-│   └── requirements.txt      # Project dependencies
-│
+│   ├── app.py                  # Main backend script
+│   ├── intent_classifier.py    # Intent classification logic
+│   ├── intents.py              # Handles loading intents from the database
+│   ├── responses.py            # Fetches responses for intents
+│   └── utils.py                # Utility functions
 ├── frontend/
+│   ├── assets/
+│   │   ├── logo.png            # Logo image
+│   │   ├── chat.png            # Chat-related assets
+│   │   └── [other images]
 │   ├── templates/
-│   │   └── index.html        # Main HTML file for the web interface
-│   ├── style.css             # CSS file for styling the chatbot
-│   ├── chat.js               # JavaScript file for managing frontend chatbot logic
-│   └── assets/
-│       ├── chat.png          # Chat icon used for the widget
-│       └── chatbot_logo.png  # Bot logo displayed in the chat window
-│
-└── README.md                 # Project documentation
+│   │   └── index.html          # Frontend HTML template
+│   ├── chat.js                 # Frontend JavaScript logic
+│   └── style.css               # Frontend styles
+├── database.db                 # SQLite database file
+├── README.md                   # Documentation
+└── requirements.txt            # Python dependencies
+
 
 
 Installation
@@ -36,7 +35,7 @@ Installation
 Clone the Repository:
 
 
-git clone https://github.com/your-username/cs_chatbot.git
+git clone git@github.com:minnocent12/cs_chabot.git
 
 cd cs_chatbot
 Set up a Virtual Environment:
@@ -67,7 +66,8 @@ Open a browser and go to http://127.0.0.1:5000 to interact with the chatbot.
 Usage
 
 Click on the chat icon at the bottom-right corner of the webpage to initiate a conversation with the bot.
-You can ask predefined questions using buttons like "Tell me about courses" or "Admission process."
+You can ask predefined questions using buttons like "What programs are offered by the Computer Science Department?
+" or "What should I do if a class is full?."
 For open-ended questions, simply type your question, and the chatbot will either match it to an intent or generate a response similarity matching.
 Technologies Used
 Flask: Web framework for the backend server.
